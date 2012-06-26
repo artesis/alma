@@ -195,6 +195,9 @@ function alma_reservation_create($account, $id, $branch, $expiry=null) {
 function alma_reservation_update($account, $ids, $options) {
   $creds = ding_user_get_creds($account);
   $reservations = alma_reservation_get_reservations($account);
+  $updated = FALSE;
+
+  // Processing IDs. If at least one is updated, return true.
   foreach($ids as $id) {
     if (isset($reservations[$id])) {
       $expiry_date = !empty($options['expiry']) ? alma_reservation_format_date($options['expiry']) : $reservations[$id]['valid_to'];
@@ -205,12 +208,16 @@ function alma_reservation_update($account, $ids, $options) {
       );
       // Alma do not return a status.
       alma_client_invoke('change_reservation', $creds['name'], $creds['pass'], $reservations[$id], $changes);
+      $updated = TRUE;
     }
-    alma_reservation_clear_cache();
-    return TRUE;
   }
 
-  return FALSE;
+  // Clear cache after all reservations have been updated.
+  if ($updated) {
+    alma_reservation_clear_cache();
+  }
+
+  return $updated;
 }
 
 /**
