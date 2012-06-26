@@ -297,7 +297,7 @@ function alma_field_default_fields() {
       ),
       'entity_type' => 'profile2',
       'field_name' => 'field_alma_preferred_branch',
-      'label' => 'Alma preferred branch',
+      'label' => 'Preferred branch',
       'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
@@ -393,7 +393,7 @@ function alma_field_default_fields() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Absent id');
-  t('Alma preferred branch');
+  t('Preferred branch');
   t('Interest period');
   t('Mobile phone');
   t('Reservation pause');
