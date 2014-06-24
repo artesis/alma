@@ -523,7 +523,8 @@ function alma_profile2_presave($profile2) {
           ? 'DELETE' : $profile2->field_alma_mobile_phone[$langs['field_alma_mobile_phone']][0]['value'];
     if ($org_phone != $new_phone) {
       $changes['mobile'] = $new_phone;
-      $changes['phone_id'] = $profile2->field_alma_phone_id[$langs['field_alma_phone_id']][0]['value'];
+      $phone_id = empty($profile2->field_alma_phone_id[$langs['field_alma_phone_id']][0]['value']) ? NULL : $profile2->field_alma_phone_id[$langs['field_alma_phone_id']][0]['value'];
+      $changes['phone_id'] = $phone_id;
     }
   }
   // If not - add new one.
@@ -683,6 +684,14 @@ function alma_get_patron($creds = NULL, $reset = FALSE, $as_array = FALSE) {
   if (!$patron || $reset) {
     $info = alma_client_invoke('get_patron_info', $creds['name'], $creds['pass'], TRUE);
     $organisation = alma_get_organisation();
+
+    $branch = empty($info['preferences']['patron_branch']) ? '' : $info['preferences']['patron_branch'];
+
+    $branch_name = '';
+    if (!empty($branch) && !empty($organisation['branch'][$info['preferences']['patron_branch']])) {
+      $branch_name = $organisation['branch'][$info['preferences']['patron_branch']];
+    }
+
     $patron = array(
       'name' => $info['user_name'],
       'email' => isset($info['mails'][0]) ? $info['mails'][0]['mail'] : '',
@@ -690,8 +699,8 @@ function alma_get_patron($creds = NULL, $reset = FALSE, $as_array = FALSE) {
       'postal' => isset($info['addresses'][0]) ? $info['addresses'][0]['postal_code'] : '',
       'city' => isset($info['addresses'][0]) ? $info['addresses'][0]['city'] : '',
       'mobiles' => isset($info['phones']) ? $info['phones'] : '',
-      'branch' => $info['preferences']['patron_branch'],
-      'branchName' => $organisation['branch'][$info['preferences']['patron_branch']],
+      'branch' => $branch,
+      'branchName' => $branch_name,
       'absentPeriods' => isset($info['absent_periods']) ? $info['absent_periods'] : '',
     );
   }
@@ -719,18 +728,13 @@ function alma_replace_entity($item) {
   if ($alma_object['request_status'] == 'ok' && isset($alma_object['records'][$faust_number])) {
     $source = $alma_object['records'][$faust_number];
     $pseudo_ting_object = new TingEntity();
-    $pseudo_ting_object->localId = $faust_number;
-    $pseudo_ting_object->ding_entity_id = $item->ding_entity_id;
-    $pseudo_ting_object->reply = new TingClientObject();
-    $pseudo_ting_object->reply->record['dc:title']['dkdcplus:full'] = array($source['titles'][0]);
-    $pseudo_ting_object->reply->record['dc:type']['dkdcplus:BibDK-Type'] = array($source['media_class']);
+    $pseudo_ting_object->setLocalId($faust_number);
+    $pseudo_ting_object->setDingEntityId($item->ding_entity_id);
+    $pseudo_ting_object->setTitle($source['titles'][0]);
+    $pseudo_ting_object->setType($source['media_class']);
     // @todo
     // Author from provider.
-    $pseudo_ting_object->reply->record['dc:creator']['dkdcplus:aut'] = array('');
-    $pseudo_ting_object->reply->record['dc:date'][''] = array($source['publication_year']);
-    $pseudo_ting_object->ting_title = array(LANGUAGE_NONE => array(array('id' => $item->ding_entity_id)));
-    $pseudo_ting_object->ting_type = array(LANGUAGE_NONE => array(array('id' => $item->ding_entity_id)));
-    $pseudo_ting_object->ting_author = array(LANGUAGE_NONE => array(array('id' => $item->ding_entity_id)));
+    $pseudo_ting_object->setDate($source['publication_year']);
     $pseudo_ting_object->ting_cover = array(LANGUAGE_NONE => array(array('local_id' => $faust_number)));
     $pseudo_ting_object->ding_entity_type = 'ding_entity';
     $pseudo_ting_object->provider_id = $faust_number;

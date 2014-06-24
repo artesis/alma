@@ -10,7 +10,7 @@
 function alma_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'profile2-provider_alma-field_absent_id'
+  // Exported field: 'profile2-provider_alma-field_absent_id'.
   $fields['profile2-provider_alma-field_absent_id'] = array(
     'field_config' => array(
       'active' => '1',
@@ -31,6 +31,7 @@ function alma_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -72,7 +73,7 @@ function alma_field_default_fields() {
     ),
   );
 
-  // Exported field: 'profile2-provider_alma-field_alma_interest_period'
+  // Exported field: 'profile2-provider_alma-field_alma_interest_period'.
   $fields['profile2-provider_alma-field_alma_interest_period'] = array(
     'field_config' => array(
       'active' => '1',
@@ -86,6 +87,7 @@ function alma_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
@@ -135,7 +137,7 @@ function alma_field_default_fields() {
     ),
   );
 
-  // Exported field: 'profile2-provider_alma-field_alma_mobile_phone'
+  // Exported field: 'profile2-provider_alma-field_alma_mobile_phone'.
   $fields['profile2-provider_alma-field_alma_mobile_phone'] = array(
     'field_config' => array(
       'active' => '1',
@@ -156,9 +158,10 @@ function alma_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
-        'max_length' => '16',
+        'max_length' => '255',
         'profile2_private' => 0,
       ),
       'translatable' => '0',
@@ -198,7 +201,7 @@ function alma_field_default_fields() {
     ),
   );
 
-  // Exported field: 'profile2-provider_alma-field_alma_phone_id'
+  // Exported field: 'profile2-provider_alma-field_alma_phone_id'.
   $fields['profile2-provider_alma-field_alma_phone_id'] = array(
     'field_config' => array(
       'active' => '1',
@@ -219,6 +222,7 @@ function alma_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -258,7 +262,7 @@ function alma_field_default_fields() {
     ),
   );
 
-  // Exported field: 'profile2-provider_alma-field_alma_preferred_branch'
+  // Exported field: 'profile2-provider_alma-field_alma_preferred_branch'.
   $fields['profile2-provider_alma-field_alma_preferred_branch'] = array(
     'field_config' => array(
       'active' => '1',
@@ -272,6 +276,7 @@ function alma_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(),
@@ -312,7 +317,7 @@ function alma_field_default_fields() {
     ),
   );
 
-  // Exported field: 'profile2-provider_alma-field_alma_reservation_pause'
+  // Exported field: 'profile2-provider_alma-field_alma_reservation_pause'.
   $fields['profile2-provider_alma-field_alma_reservation_pause'] = array(
     'field_config' => array(
       'active' => '1',
@@ -322,6 +327,7 @@ function alma_field_default_fields() {
       'field_name' => 'field_alma_reservation_pause',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'date',
       'settings' => array(
         'granularity' => array(
@@ -393,9 +399,9 @@ function alma_field_default_fields() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Absent id');
-  t('Preferred branch');
   t('Interest period');
   t('Phone');
+  t('Preferred branch');
   t('Reservation pause');
   t('Set your reservations on pause.');
   t('phone id');

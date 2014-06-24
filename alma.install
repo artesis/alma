@@ -20,3 +20,46 @@ function alma_update_7001() {
   echo $num_upd;
   return t('system weight for alma updated to 10');
 }
+
+/**
+ * Expands the limit length for the phone field.
+ */
+function alma_update_7002() {
+  $field_name = 'field_alma_mobile_phone';
+
+  // Get the current settings
+  $result = db_query('SELECT data FROM {field_config} WHERE field_name = :name', array(':name' => $field_name))->fetchField();
+
+  // Change the settings
+  $data = unserialize($result);
+  $data['settings']['max_length'] = '255';
+
+  // Write settings back to the database.
+  db_update('field_config')
+    ->fields(array('data' => serialize($data)))
+    ->condition('field_name', $field_name)
+    ->execute();
+
+  $definition = array(
+    'type' => 'varchar',
+    'length' => 255,
+  );
+
+  $col_name = $field_name. '_value';
+
+  db_change_field(
+    "field_data_$field_name",
+    $col_name,
+    $col_name,
+    $definition
+  );
+
+  db_change_field(
+    "field_revision_$field_name",
+    $col_name,
+    $col_name,
+    $definition
+  );
+
+  drupal_flush_all_caches();
+}
