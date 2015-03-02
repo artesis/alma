@@ -87,7 +87,7 @@ function alma_user_profile_init($profile2, $auth_res) {
   // @todo - check if it's correct to handle the first only
   $langs = field_language('profile2', $profile2);
   // reservation pause
-  if (!empty($patron->absentPeriods[0]['from_date']) && !empty($patron->absentPeriods[0]['to_date'])) {
+  if (!empty($patron->absentPeriods) && !empty($patron->absentPeriods[0]['from_date']) && !empty($patron->absentPeriods[0]['to_date'])) {
     $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value'] = $patron->absentPeriods[0]['from_date'];
     $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value2'] = $patron->absentPeriods[0]['to_date'];
     $profile2->field_absent_id[$langs['field_absent_id']][0]['value'] = $patron->absentPeriods[0]['id'];
