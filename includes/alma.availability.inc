@@ -19,7 +19,7 @@ function alma_availability_holdings($provider_ids) {
         'reservable' => $record['show_reservation_button'],
         'show_reservation_button' => $record['show_reservation_button'],
         'holdings' => isset($record['holdings']) ? $record['holdings'] : array(),
-        'reserved_count' => (int) $record['reservation_count'],
+        'reservation_count' => (int) $record['reservation_count'],
         'total_count' => isset($record['holdings']) ? _alma_count_total($record['holdings'], $record['media_class'] == 'periodical') : 0,
         'deferred_period' => FALSE,
         'issues' => ($is_periodical && isset($record['holdings'])) ? _alma_populate_issues($record['holdings']) : array(),
@@ -168,7 +168,7 @@ function _alma_set_rows($h) {
 
   $copies_total = 0;
   $home_total = 0;
-  
+
   foreach ($h as $key => $data) {
     $row = array();
 
